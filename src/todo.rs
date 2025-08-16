@@ -28,7 +28,8 @@ impl TodoList {//implementation for struct todolist
             "/help"=>self.help(),
             "add"=>self.add_task(),
             "rem"=>self.remove_task(),
-            
+            "view"=>self.view(),
+            "comp"=>self.complete(),
             _ =>println!("Invalid Command"),
         }
         if a.trim()=="q" {
@@ -63,10 +64,7 @@ impl TodoList {//implementation for struct todolist
 
         self.todos.push(todo);//push to vec
 
-        println!("--- Todo List ---");
-        for (i, todo) in self.todos.iter().enumerate() {
-            println!("{}: {}", i + 1, todo);
-        }//print
+        
     }
     }
    }
@@ -80,10 +78,7 @@ impl TodoList {//implementation for struct todolist
         }
         else{
             self.todos.retain(|x| x.task.trim() != b.trim());
-            println!("Updated Todo List:");
-            for (i, todo) in self.todos.iter().enumerate() {
-                println!("{}: {}", i + 1, todo);
-            }
+            
         }
     }
     }
@@ -91,5 +86,12 @@ impl TodoList {//implementation for struct todolist
     
     pub fn complete(&self){
 // update bool value to complete tasks. not remove them entirely.
+   println!("Enter the task you want to complete");
+    }
+    pub fn view(&self) {
+        println!("-- Your Todo List--");
+            for (i, todo) in self.todos.iter().enumerate() {
+                println!("{}: {}", i + 1, todo);
+            }
     }
 }
