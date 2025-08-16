@@ -7,8 +7,7 @@ mod todo;
 fn main() {
     let mut instance = TodoList::new(); //creating an instance of the TodoList Struct to  use it in main.rs
 
-    instance.add_task();//calling add_task
-    
+    instance.state();
 
     instance.complete();
      println!("\nAfter completing first task:");
