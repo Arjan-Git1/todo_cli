@@ -44,30 +44,25 @@ impl TodoList {//implementation for struct todolist
      pub fn new() -> Self {
         TodoList { todos: Vec::new() }//create a new vec and start the aopp
     }
-   pub  fn add_task(&mut self) {
-   
+   pub fn add_task(&mut self) {
     loop {
-        //loop till someone presses q
-         let mut a = String::new();
-
+        let mut a = String::new();
         println!("Enter a task:");
         io::stdin().read_line(&mut a).expect("Enter a valid task.");
-         if a.trim()=="q" {
-             break;
-         }
-        else {
-            
-        let todo = Todo {
-            task: a,
-            completed: false,
-        };//create instance
+        let a = a.trim().to_string(); // FIX: trim before saving
 
-        self.todos.push(todo);//push to vec
+        if a == "q" {
+            break;
+        } else {
+            let todo = Todo {
+                task: a,
+                completed: false,
+            };
+            self.todos.push(todo);
+        }
+    }
+}
 
-        
-    }
-    }
-   }
     pub fn remove_task(&mut self){
         loop{
             let mut b = String::new();
@@ -84,14 +79,35 @@ impl TodoList {//implementation for struct todolist
     }
 
     
-    pub fn complete(&self){
-// update bool value to complete tasks. not remove them entirely.
-   println!("Enter the task you want to complete");
+    pub fn complete(&mut self) {
+    println!("Enter the task you want to complete");
+    let mut c = String::new();
+    io::stdin().read_line(&mut c).expect("Enter something");
+    let c = c.trim(); // FIX
+
+    if c == "q" {
+        return;
     }
+
+    let mut found = false;
+    for todo in &mut self.todos {
+        if todo.task.eq_ignore_ascii_case(c) {
+            todo.completed = true;
+            println!("Task '{}' marked as completed!", todo.task);
+            found = true;
+        }
+    }
+    if !found {
+        println!("No such task found: {}", c);
+    }
+}
+
     pub fn view(&self) {
         println!("-- Your Todo List--");
             for (i, todo) in self.todos.iter().enumerate() {
-                println!("{}: {}", i + 1, todo);
+                let status = if todo.completed { "✅" } else { "❌" };
+        println!("{}: {} [{}]", i + 1, todo.task, status);
+
             }
     }
 }
